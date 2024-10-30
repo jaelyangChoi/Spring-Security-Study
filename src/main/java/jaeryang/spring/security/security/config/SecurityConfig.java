@@ -38,7 +38,10 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Bean
+    /**
+     * 인메모리 유저 추가
+     */
+//    @Bean
     public UserDetailsService userDetailsService() {
         UserDetails adminUser = User.builder()
                 .username("admin")
