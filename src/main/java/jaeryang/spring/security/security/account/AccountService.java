@@ -8,8 +8,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-@Service
 @RequiredArgsConstructor
+@Service
 public class AccountService implements UserDetailsService {
 
     private final AccountRepository accountRepository;
@@ -29,8 +29,7 @@ public class AccountService implements UserDetailsService {
     }
 
     public Account createNew(Account account) {
-        String encodedPassword = passwordEncoder.encode(account.getPassword());
-        account.setPassword(encodedPassword);
+        account.encodePassword(passwordEncoder);
         return accountRepository.save(account);
     }
 }

@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -21,12 +22,12 @@ public class SecurityConfig {
 
     @Bean
     public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder(); //기본 추천 전략인 bcrypt 방식
+        //"{bcrypt}$2a$10$Z0mUanbB26XYAAnPOlj3W.7THw8wywvzYIID2gXS5UP4PDf4inAwa" 와 같이 생성됨
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        log.info("########### Security Filter Chain 등록 전!!!!!!!!!!!!");
         http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.
                 requestMatchers("/", "/info", "/account/**").permitAll()
                 .requestMatchers("/admin").hasRole("ADMIN")
@@ -34,7 +35,6 @@ public class SecurityConfig {
         );
         http.formLogin(Customizer.withDefaults());
         http.csrf((auth) -> auth.disable());
-        log.info("########### Security Filter Chain 등록 후!!!!!!!!!!!!");
         return http.build();
     }
 
