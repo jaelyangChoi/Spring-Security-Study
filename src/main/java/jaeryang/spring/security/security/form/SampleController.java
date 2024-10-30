@@ -1,5 +1,8 @@
-package jaeryang.spring.security.security;
+package jaeryang.spring.security.security.form;
 
+import jaeryang.spring.security.security.account.AccountContext;
+import jaeryang.spring.security.security.account.AccountRepository;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -9,7 +12,11 @@ import java.security.Principal;
 
 @Slf4j
 @Controller
+@RequiredArgsConstructor
 public class SampleController {
+
+    private final SampleService sampleService;
+    private final AccountRepository accountRepository;
 
     @GetMapping("/")
     public String index(Model model, Principal principal) {
@@ -28,6 +35,8 @@ public class SampleController {
 
     @GetMapping("/dashboard")
     public String dashboard(Model model, Principal principal) {
+        AccountContext.setAccount(accountRepository.findByUsername(principal.getName()).orElse(null));
+        sampleService.dashboard();
         model.addAttribute("message", "Hello " + principal.getName());
         return "dashboard";
     }
