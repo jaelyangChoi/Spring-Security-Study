@@ -35,7 +35,7 @@ public class SampleController {
 
     @GetMapping("/dashboard")
     public String dashboard(Model model, Principal principal) {
-        AccountContext.setAccount(accountRepository.findByUsername(principal.getName()).orElse(null));
+//        AccountContext.setAccount(accountRepository.findByUsername(principal.getName()).orElse(null));
         sampleService.dashboard();
         model.addAttribute("message", "Hello " + principal.getName());
         return "dashboard";
@@ -46,6 +46,13 @@ public class SampleController {
         log.info("GET admin request!@!@");
         model.addAttribute("message", "Hello admin, " + principal.getName());
         return "admin";
+    }
+
+    @GetMapping("/user")
+    public String user(Model model, Principal principal) {
+        log.info("GET admin request!@!@");
+        model.addAttribute("message", "Hello user, " + principal.getName());
+        return "user";
     }
 
 }

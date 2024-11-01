@@ -3,13 +3,15 @@ package jaeryang.spring.security.security.config;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
+import org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -17,8 +19,9 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Slf4j
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class SecurityConfig {
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -26,16 +29,22 @@ public class SecurityConfig {
         //"{bcrypt}$2a$10$Z0mUanbB26XYAAnPOlj3W.7THw8wywvzYIID2gXS5UP4PDf4inAwa" 와 같이 생성됨
     }
 
-    @Bean
+        @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.
                 requestMatchers("/", "/info", "/account/**").permitAll()
                 .requestMatchers("/admin").hasRole("ADMIN")
+                .requestMatchers("/user").hasRole("USER")
                 .anyRequest().authenticated()
         );
         http.formLogin(Customizer.withDefaults());
         http.csrf((auth) -> auth.disable());
         return http.build();
+    }
+
+    @Bean
+    public RoleHierarchy roleHierarchy() {
+        return RoleHierarchyImpl.fromHierarchy("ROLE_ADMIN > ROLE_USER");
     }
 
     /**
@@ -51,4 +60,26 @@ public class SecurityConfig {
 
         return new InMemoryUserDetailsManager(adminUser);
     }
+
+    /*
+    @Bean
+    @Order(3)
+    public SecurityFilterChain securityFilterChain1(HttpSecurity http) throws Exception {
+        http
+                .securityMatcher("/**")
+                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll()
+                );
+        return http.build();
+    }
+
+    @Bean
+    @Order(2)
+    public SecurityFilterChain securityFilterChain2(HttpSecurity http) throws Exception {
+        http
+                .securityMatcher("/**")
+                .authorizeHttpRequests(auth -> auth.anyRequest().authenticated()
+                );
+        return http.build();
+    }
+    */
 }
