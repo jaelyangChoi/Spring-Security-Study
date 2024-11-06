@@ -1,6 +1,7 @@
 package jaeryang.spring.security.security;
 
 import jaeryang.spring.security.security.account.AccountRepository;
+import jaeryang.spring.security.security.account.AccountService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +15,7 @@ public class SecurityApplication {
     }
 
     @Bean
-    public InitData initData(AccountRepository accountRepository) {
-        return new InitData(accountRepository);
+    public InitData initData(AccountService accountService) {
+        return new InitData(accountService);
     }
 }

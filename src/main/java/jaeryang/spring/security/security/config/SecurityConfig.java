@@ -41,6 +41,13 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
         );
         http.formLogin(Customizer.withDefaults());
+
+        http.logout(logout ->
+                logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+        );
+
         return http.build();
     }
 
