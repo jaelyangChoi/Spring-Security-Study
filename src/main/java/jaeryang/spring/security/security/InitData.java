@@ -1,7 +1,6 @@
 package jaeryang.spring.security.security;
 
 import jaeryang.spring.security.security.account.Account;
-import jaeryang.spring.security.security.account.AccountRepository;
 import jaeryang.spring.security.security.account.AccountService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

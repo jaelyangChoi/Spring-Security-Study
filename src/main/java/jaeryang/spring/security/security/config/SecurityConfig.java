@@ -40,7 +40,15 @@ public class SecurityConfig {
                 .requestMatchers("/user").hasRole("USER")
                 .anyRequest().authenticated()
         );
-        http.formLogin(Customizer.withDefaults());
+        //기본 사용
+//        http.formLogin(Customizer.withDefaults());
+
+        //커스텀 로그인 페이지 사용 (로그인, 로그아웃 페이지 생성 필터 사라짐)
+        http.formLogin(login ->
+                login
+                        .loginPage("/login")
+                        .permitAll()
+        );
 
         http.logout(logout ->
                 logout
