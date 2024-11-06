@@ -35,13 +35,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.
-                requestMatchers("/", "/info", "/account/**").permitAll()
+                requestMatchers("/", "/info", "/account/**", "/signup").permitAll()
                 .requestMatchers("/admin").hasRole("ADMIN")
                 .requestMatchers("/user").hasRole("USER")
                 .anyRequest().authenticated()
         );
         http.formLogin(Customizer.withDefaults());
-        http.csrf((auth) -> auth.disable());
         return http.build();
     }
 
