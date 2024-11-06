@@ -1,4 +1,4 @@
-package jaeryang.spring.security.security.form;
+package jaeryang.spring.security.security.account;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

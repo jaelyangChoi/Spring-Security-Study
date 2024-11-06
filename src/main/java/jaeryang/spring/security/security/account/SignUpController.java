@@ -1,7 +1,5 @@
-package jaeryang.spring.security.security.form;
+package jaeryang.spring.security.security.account;
 
-import jaeryang.spring.security.security.account.Account;
-import jaeryang.spring.security.security.account.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
