@@ -1,5 +1,6 @@
 package jaeryang.spring.security.security.config;
 
+import jaeryang.spring.security.security.common.LoggingFilter;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -22,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
 
 import java.io.IOException;
 
@@ -95,6 +97,9 @@ public class SecurityConfig {
         //로그인 유지하기 (기본 값 2주)
         http.rememberMe(httpSecurityRememberMeConfigurer ->
                 httpSecurityRememberMeConfigurer.rememberMeParameter("remember-me"));
+
+        //커스텀 시큐리티 필터 등록하기
+        http.addFilterBefore(new LoggingFilter(), WebAsyncManagerIntegrationFilter.class);
 
         return http.build();
     }
