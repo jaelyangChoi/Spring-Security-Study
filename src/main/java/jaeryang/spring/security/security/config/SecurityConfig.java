@@ -9,6 +9,7 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -59,6 +60,20 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/")
         );
 
+        /*
+        http.sessionManagement(auth -> auth
+                .maximumSessions(1) //다중 로그인 허용 개수
+                .maxSessionsPreventsLogin(true) //다중 로그인 개수 초과 시 처리 방법 (true: 추가 로그인 허용 안함, 기본 false)
+        );
+
+        http.sessionManagement(auth -> auth
+                .sessionFixation().changeSessionId() //세션 고정 보호 (전략: 세션 Id 변경)
+        );
+
+        http.sessionManagement(auth -> auth
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS) //세션 사용 안함
+        );
+        */
         return http.build();
     }
 
