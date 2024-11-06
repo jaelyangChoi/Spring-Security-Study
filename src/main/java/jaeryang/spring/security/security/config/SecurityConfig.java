@@ -40,6 +40,9 @@ public class SecurityConfig {
                 .requestMatchers("/user").hasRole("USER")
                 .anyRequest().authenticated()
         );
+
+        http.httpBasic(Customizer.withDefaults());
+
         //기본 사용
 //        http.formLogin(Customizer.withDefaults());
 
