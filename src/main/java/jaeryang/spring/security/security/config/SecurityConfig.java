@@ -91,6 +91,11 @@ public class SecurityConfig {
                         })
 
         );
+
+        //로그인 유지하기 (기본 값 2주)
+        http.rememberMe(httpSecurityRememberMeConfigurer ->
+                httpSecurityRememberMeConfigurer.rememberMeParameter("remember-me"));
+
         return http.build();
     }
 
