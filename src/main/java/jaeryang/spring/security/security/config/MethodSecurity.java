@@ -22,7 +22,7 @@ public class MethodSecurity {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-    @Bean
+//    @Bean //web security와 공용으로 써서 이건 빈으로 등록 x
     public RoleHierarchy roleHierarchy() {
         return RoleHierarchyImpl.fromHierarchy("ROLE_ADMIN > ROLE_USER");
     }

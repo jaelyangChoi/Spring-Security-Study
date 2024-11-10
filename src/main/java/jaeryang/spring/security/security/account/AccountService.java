@@ -20,12 +20,13 @@ public class AccountService implements UserDetailsService {
 
         Account account = accountRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
 
-        return User.builder()
+        return new UserAccount(account);
+        /*return User.builder()
                 .username(account.getUsername())
                 .password(account.getPassword())
                 .roles(account.getRole())
                 .build()
-                ;
+                ;*/
     }
 
     public Account createNew(Account account) {

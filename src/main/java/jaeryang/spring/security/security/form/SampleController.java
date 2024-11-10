@@ -1,9 +1,11 @@
 package jaeryang.spring.security.security.form;
 
-import jaeryang.spring.security.security.account.AccountContext;
-import jaeryang.spring.security.security.account.AccountRepository;
+import jaeryang.spring.security.security.account.Account;
+import jaeryang.spring.security.security.account.UserAccount;
+import jaeryang.spring.security.security.common.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,14 +21,16 @@ import java.util.concurrent.Callable;
 public class SampleController {
 
     private final SampleService sampleService;
-    private final AccountRepository accountRepository;
 
     @GetMapping("/")
-    public String index(Model model, Principal principal) {
-        if (principal == null)
+//    public String index(Model model, Principal principal) {
+    //@AuthenticationPrincipal을 붙이면 UserAccount(우리가 구현한 UserDetails)로 받아올 수 있다.
+    //Account로 바로 받아오려면 옵션 추가
+    public String index(Model model, @CurrentUser Account account) {
+        if (account == null)
             model.addAttribute("message", "Hello Index");
         else
-            model.addAttribute("message", "Hello " + principal.getName());
+            model.addAttribute("message", "Hello " + account.getUsername());
         return "index";
     }
 
