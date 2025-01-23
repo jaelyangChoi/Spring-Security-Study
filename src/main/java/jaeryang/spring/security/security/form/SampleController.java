@@ -2,6 +2,7 @@ package jaeryang.spring.security.security.form;
 
 import jaeryang.spring.security.security.account.Account;
 import jaeryang.spring.security.security.account.UserAccount;
+import jaeryang.spring.security.security.book.BookRepository;
 import jaeryang.spring.security.security.common.CurrentUser;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ import java.util.concurrent.Callable;
 public class SampleController {
 
     private final SampleService sampleService;
+    private final BookRepository bookRepository;
 
     @GetMapping("/")
 //    public String index(Model model, Principal principal) {
@@ -59,6 +61,7 @@ public class SampleController {
     public String user(Model model, Principal principal) {
         log.info("GET admin request!@!@");
         model.addAttribute("message", "Hello user, " + principal.getName());
+        model.addAttribute("books", bookRepository.findCurrentUserBooks());
         return "user";
     }
 
